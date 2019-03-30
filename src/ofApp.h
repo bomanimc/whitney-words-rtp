@@ -21,8 +21,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    ofTrueTypeFont corm;
-    vector<ofPath> paths;
+    ofTrueTypeFont font;
+    ofRectangle boundingRect;
+    vector<vector<ofPath>> textSections;
     float textXPos;
     float textYPos;
 };
