@@ -44,7 +44,7 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             ofPolyline p = polylines[j];
             p = p.getResampledBySpacing(5);
             for (int k = 0; k < p.size(); k++) {
-                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, mouseX + mouseX / 2 * sin(2 * ofGetElapsedTimef() + k * 0.1));
+                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 100 * sin(0.1 * ofGetElapsedTimef()));
             }
             ofPopMatrix();
         }
