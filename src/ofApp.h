@@ -22,5 +22,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     ofTrueTypeFont corm;
-		
+    vector<Circle> circles;
+    ofEasyCam cam;
 };
