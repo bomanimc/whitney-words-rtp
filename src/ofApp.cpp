@@ -4,6 +4,12 @@
 void ofApp::setup(){
     ofNoFill();
     corm.load("corm.ttf", 200, true, true, true);
+    paths = corm.getStringAsPoints("1961", false, false);
+    
+    // Center the text by using bounding box and x-height.
+    ofRectangle boundingRect = corm.getStringBoundingBox("1961", 0, 0);
+    textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
+    textYPos = (ofGetHeight() / 2) + (corm.stringHeight("x") / 2);
 }
 
 //--------------------------------------------------------------
@@ -15,15 +21,12 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    vector<ofPath> paths = corm.getStringAsPoints("Hello", false, false);
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
         vector<ofPolyline> polylines = path.getOutline();
         for (int j = 0; j < polylines.size(); j++) {
-            
             ofPushMatrix();
-            ofTranslate(400, 400);
-//            polylines[j].draw();
+            ofTranslate(textXPos, textYPos);
             ofPolyline p = polylines[j];
             p = p.getResampledBySpacing(5);
             for (int k = 0; k < p.size(); k++) {
@@ -32,8 +35,6 @@ void ofApp::draw(){
             ofPopMatrix();
         }
     }
-    
-//    corm.drawString("Hello", 100, 100);
 }
 
 //--------------------------------------------------------------

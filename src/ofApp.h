@@ -22,5 +22,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     ofTrueTypeFont corm;
-		
+    vector<ofPath> paths;
+    float textXPos;
+    float textYPos;
 };
