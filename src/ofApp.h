@@ -21,8 +21,11 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+    void drawText(vector<ofPath> paths, float xPos, float yPos, int color);
+    
     ofTrueTypeFont font;
     ofRectangle boundingRect;
+    vector<int> colors{0x50E2FF, 0xABFFA3};
     vector<vector<ofPath>> textSections;
     float textXPos;
     float textYPos;

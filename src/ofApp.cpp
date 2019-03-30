@@ -28,19 +28,25 @@ void ofApp::draw(){
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
         
-        for (int i = 0; i < paths.size(); i++) {
-            ofPath path = paths[i];
-            vector<ofPolyline> polylines = path.getOutline();
-            for (int j = 0; j < polylines.size(); j++) {
-                ofPushMatrix();
-                ofTranslate(sectionXPos, textYPos);
-                ofPolyline p = polylines[j];
-                p = p.getResampledBySpacing(5);
-                for (int k = 0; k < p.size(); k++) {
-                    ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, mouseX + mouseX / 2 * sin(2 * ofGetElapsedTimef() + k * 0.1));
-                }
-                ofPopMatrix();
+        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
+    }
+}
+
+void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
+    ofSetHexColor(color);
+    
+    for (int i = 0; i < paths.size(); i++) {
+        ofPath path = paths[i];
+        vector<ofPolyline> polylines = path.getOutline();
+        for (int j = 0; j < polylines.size(); j++) {
+            ofPushMatrix();
+            ofTranslate(xPos, yPos);
+            ofPolyline p = polylines[j];
+            p = p.getResampledBySpacing(5);
+            for (int k = 0; k < p.size(); k++) {
+                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, mouseX + mouseX / 2 * sin(2 * ofGetElapsedTimef() + k * 0.1));
             }
+            ofPopMatrix();
         }
     }
 }
