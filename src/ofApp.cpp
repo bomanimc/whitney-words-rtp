@@ -15,6 +15,9 @@ void ofApp::setup(){
     boundingRect = font.getStringBoundingBox("1961", 0, 0);
     textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
     textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
+    
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<BloomPass>();
 }
 
 //--------------------------------------------------------------
@@ -25,17 +28,19 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackground(0);
-    
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+//    post.begin();
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
         
         ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
+//    post.end();
 }
 
 void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
-    ofSetColor(ofColor::fromHex(color, 50));
+    ofSetColor(ofColor::fromHex(color, 25));
     
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
