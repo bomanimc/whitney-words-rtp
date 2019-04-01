@@ -24,7 +24,7 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    for (int sectionNum = 0; sectionNum < textSections.size(); sectionNum++) {
+    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
         
@@ -33,7 +33,7 @@ void ofApp::draw(){
 }
 
 void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
-    ofSetHexColor(color);
+    ofSetColor(ofColor::fromHex(color, 25));
     
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
@@ -42,7 +42,7 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             ofPushMatrix();
             ofTranslate(xPos, yPos);
             ofPolyline p = polylines[j];
-            p = p.getResampledBySpacing(5);
+            p = p.getResampledByCount(500);
             for (int k = 0; k < p.size(); k++) {
                 ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 100 * sin(0.1 * ofGetElapsedTimef()));
             }

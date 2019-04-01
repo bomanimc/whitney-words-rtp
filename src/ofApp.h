@@ -25,7 +25,7 @@ class ofApp : public ofBaseApp{
     
     ofTrueTypeFont font;
     ofRectangle boundingRect;
-    vector<int> colors{0x50E2FF, 0xABFFA3};
+    vector<int> colors{0xABFFA3, 0x50E2FF};
     vector<vector<ofPath>> textSections;
     float textXPos;
     float textYPos;
