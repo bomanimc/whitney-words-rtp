@@ -3,6 +3,8 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofNoFill();
+    ofSetCircleResolution(50);
+    
     font.load("corm.ttf", 200, true, true, true);
     vector<ofPath> nineteen = font.getStringAsPoints("19", false, false);
     vector<ofPath> sixteen = font.getStringAsPoints("61", false, false);
@@ -33,7 +35,7 @@ void ofApp::draw(){
 }
 
 void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
-    ofSetColor(ofColor::fromHex(color, 25));
+    ofSetColor(ofColor::fromHex(color, 50));
     
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
