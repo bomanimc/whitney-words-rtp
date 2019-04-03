@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxPostProcessing.h"
+#include "ofxBlur.h"
 
 class ofApp : public ofBaseApp{
 
@@ -29,4 +31,7 @@ class ofApp : public ofBaseApp{
     vector<vector<ofPath>> textSections;
     float textXPos;
     float textYPos;
+    
+    ofxPostProcessing post;
+    ofxBlur blur;
 };

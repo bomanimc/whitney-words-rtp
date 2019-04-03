@@ -4,6 +4,7 @@
 void ofApp::setup(){
     ofNoFill();
     ofSetCircleResolution(50);
+    ofSetFrameRate(20);
     
     font.load("corm.ttf", 200, true, true, true);
     vector<ofPath> nineteen = font.getStringAsPoints("19", false, false);
@@ -16,27 +17,39 @@ void ofApp::setup(){
     textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
     textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
     
-    post.init(ofGetWidth(), ofGetHeight());
-    post.createPass<BloomPass>();
+//    post.init(ofGetWidth(), ofGetHeight());
+//    post.createPass<BloomPass>();
+//    post.createPass<ZoomBlurPass>();
+    blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    blur.setScale(1);
+    blur.setRotation(PI);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackground(0);
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-//    post.begin();
+    
+    blur.begin();
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
         
         ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
-//    post.end();
+    blur.end();
+    blur.draw();
+    
+    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
+        vector<ofPath> paths = textSections[sectionNum];
+        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
+        
+        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
+    }
 }
 
 void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
@@ -51,7 +64,7 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             ofPolyline p = polylines[j];
             p = p.getResampledByCount(500);
             for (int k = 0; k < p.size(); k++) {
-                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 100 * sin(0.1 * ofGetElapsedTimef()));
+                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.1 * ofGetElapsedTimef()));
             }
             ofPopMatrix();
         }

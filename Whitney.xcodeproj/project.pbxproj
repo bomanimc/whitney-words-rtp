@@ -1025,6 +1025,70 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>D06E40FCE573DE51B85A01E6</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>4</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxBlur.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxBlur/src/ofxBlur.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>90C70AB9400930684BC9E49C</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>6C0322CCBE882EEF3EF5E61D</string>
+					<string>D06E40FCE573DE51B85A01E6</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>src</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>BD2B07454E3897083374E9C4</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>90C70AB9400930684BC9E49C</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>ofxBlur</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>CDB1F22153713F7E7AE9647D</key>
+			<dict>
+				<key>fileRef</key>
+				<string>6C0322CCBE882EEF3EF5E61D</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>6C0322CCBE882EEF3EF5E61D</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>4</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxBlur.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxBlur/src/ofxBlur.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>6948EE371B920CB800B5AC1A</key>
 			<dict>
 				<key>children</key>
@@ -1191,6 +1255,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
+						<string>../../../addons/ofxBlur/src</string>
 						<string>../../../addons/ofxPostProcessing/src</string>
 					</array>
 					<key>MACOSX_DEPLOYMENT_TARGET</key>
@@ -1233,6 +1298,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
+						<string>../../../addons/ofxBlur/src</string>
 						<string>../../../addons/ofxPostProcessing/src</string>
 					</array>
 					<key>ICON</key>
@@ -1269,6 +1335,7 @@ fi
 			<dict>
 				<key>children</key>
 				<array>
+					<string>BD2B07454E3897083374E9C4</string>
 					<string>BD52EC6DCE402D90869A80A1</string>
 				</array>
 				<key>isa</key>
@@ -4036,6 +4103,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
+						<string>../../../addons/ofxBlur/src</string>
 						<string>../../../addons/ofxPostProcessing/src</string>
 					</array>
 					<key>MACOSX_DEPLOYMENT_TARGET</key>
@@ -4098,6 +4166,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
+						<string>../../../addons/ofxBlur/src</string>
 						<string>../../../addons/ofxPostProcessing/src</string>
 					</array>
 					<key>MACOSX_DEPLOYMENT_TARGET</key>
@@ -4123,6 +4192,7 @@ fi
 				<array>
 					<string>E4B69E200A3A1BDC003C02F2</string>
 					<string>E4B69E210A3A1BDC003C02F2</string>
+					<string>CDB1F22153713F7E7AE9647D</string>
 					<string>79308B05C4D0A9B9E404FFED</string>
 					<string>3A499904889C490DCF533C6E</string>
 					<string>DFB75F1EBE744A456AC999F4</string>
@@ -4248,6 +4318,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
+						<string>../../../addons/ofxBlur/src</string>
 						<string>../../../addons/ofxPostProcessing/src</string>
 					</array>
 					<key>ICON</key>
@@ -4301,6 +4372,7 @@ fi
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
 						<string>src</string>
+						<string>../../../addons/ofxBlur/src</string>
 						<string>../../../addons/ofxPostProcessing/src</string>
 					</array>
 					<key>ICON</key>
