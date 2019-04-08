@@ -32,22 +32,35 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackground(0);
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    
+    //ofEnableAlphaBlending();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+
+    
     
     blur.begin();
+    ofClear(0,0,0,255);
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
+        
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-        
+
         ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
+    ofClearAlpha();
     blur.end();
+    
+    // Remove non-white tint
+    ofSetColor(255,255,255);
+    
     blur.draw();
     
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-        
+
         ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
 }
