@@ -39,20 +39,9 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
+    cam.begin();
     //ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-
-    blur.begin();
-    ofClear(0,0,0,255);
-    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-        
-        vector<ofPath> paths = textSections[sectionNum];
-        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-
-        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
-    }
-    ofClearAlpha();
-    blur.end();
     
     // Remove non-white tint
     ofSetColor(255,255,255);
@@ -60,13 +49,19 @@ void ofApp::draw(){
     blur.draw();
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-
+    
+    ofScale(1, -1, 1);
+    ofTranslate(-0.5 * ofGetWidth(), -0.5 * ofGetHeight(), 0);
+    
+    
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-
+        
         ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
+    
+    cam.end();
     
     gui.draw();
 }
@@ -87,7 +82,10 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
                 p = p.getResampledByCount(350);
             }
             for (int k = 0; k < p.size(); k++) {
+                ofPushMatrix();
+                ofTranslate(0, 0, 100*ofSignedNoise(0.1 * i, 0.1 * j, 0.1 * k, ofGetElapsedTimef()));
                 ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * ofGetElapsedTimef()));
+                ofPopMatrix();
             }
             ofPopMatrix();
         }
