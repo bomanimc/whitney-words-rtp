@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -27,11 +28,18 @@ class ofApp : public ofBaseApp{
     
     ofTrueTypeFont font;
     ofRectangle boundingRect;
-    vector<int> colors{0xABFFA3, 0x50E2FF};
+    vector<int> colors{0xff5252, 0x706fd3};
     vector<vector<ofPath>> textSections;
     float textXPos;
     float textYPos;
     
     ofxPostProcessing post;
     ofxBlur blur;
+    
+    ofxFloatSlider spacing;
+    ofxFloatSlider alpha;
+    ofxFloatSlider resolution;
+    ofxPanel gui;
+    
+    bool mode;
 };

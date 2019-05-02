@@ -3,17 +3,16 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofNoFill();
-    ofSetCircleResolution(50);
-    ofSetFrameRate(20);
+    ofSetFrameRate(15);
     
     font.load("corm.ttf", 200, true, true, true);
-    vector<ofPath> nineteen = font.getStringAsPoints("19", false, false);
-    vector<ofPath> sixteen = font.getStringAsPoints("61", false, false);
+    vector<ofPath> nineteen = font.getStringAsPoints("bom", false, false);
+    vector<ofPath> sixteen = font.getStringAsPoints("ani", false, false);
     textSections.push_back(nineteen);
     textSections.push_back(sixteen);
     
     // Center the text by using bounding box and x-height.
-    boundingRect = font.getStringBoundingBox("1961", 0, 0);
+    boundingRect = font.getStringBoundingBox("bomani", 0, 0);
     textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
     textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
     
@@ -21,12 +20,19 @@ void ofApp::setup(){
 //    post.createPass<BloomPass>();
 //    post.createPass<ZoomBlurPass>();
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
+    
+    gui.setup();
+    gui.add(spacing.setup("spacing", 5, 1, 50));
+    gui.add(alpha.setup("alpha", 25, 0, 255));
+    gui.add(resolution.setup("resolution", 20, 3, 75));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     blur.setScale(1);
     blur.setRotation(PI);
+    ofSetCircleResolution(resolution);
+    ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
 //--------------------------------------------------------------
@@ -36,8 +42,6 @@ void ofApp::draw(){
     //ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
-    
-    
     blur.begin();
     ofClear(0,0,0,255);
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
@@ -63,10 +67,12 @@ void ofApp::draw(){
 
         ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
+    
+    gui.draw();
 }
 
 void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
-    ofSetColor(ofColor::fromHex(color, 25));
+    ofSetColor(ofColor::fromHex(color, alpha));
     
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
@@ -75,9 +81,13 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             ofPushMatrix();
             ofTranslate(xPos, yPos);
             ofPolyline p = polylines[j];
-            p = p.getResampledByCount(500);
+            if (mode) {
+                p = p.getResampledBySpacing(spacing);
+            } else {
+                p = p.getResampledByCount(350);
+            }
             for (int k = 0; k < p.size(); k++) {
-                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.1 * ofGetElapsedTimef()));
+                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * ofGetElapsedTimef()));
             }
             ofPopMatrix();
         }
@@ -86,7 +96,7 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    mode = !mode;
 }
 
 //--------------------------------------------------------------

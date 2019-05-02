@@ -1,2 +1,3 @@
 ofxBlur
+ofxGui
 ofxPostProcessing
