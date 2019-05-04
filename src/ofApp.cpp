@@ -16,9 +16,6 @@ void ofApp::setup(){
     textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
     textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
     
-//    post.init(ofGetWidth(), ofGetHeight());
-//    post.createPass<BloomPass>();
-//    post.createPass<ZoomBlurPass>();
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
     
     gui.setup();
@@ -39,7 +36,6 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    //ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
     blur.begin();
