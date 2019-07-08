@@ -2,8 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    shader.load("shader");
+    
     ofNoFill();
-    //ofSetFrameRate(15);
     
     font.load("corm.ttf", 200, true, true, true);
     vector<ofPath> nineteen = font.getStringAsPoints("bom", false, false);
@@ -38,25 +39,13 @@ void ofApp::draw(){
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
-//    blur.begin();
-//    ofClear(0,0,0,255);
-//    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-//
-//        vector<ofPath> paths = textSections[sectionNum];
-//        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-//
-//        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
-//    }
-//    ofClearAlpha();
-//    blur.end();
-    
     // Remove non-white tint
     ofSetColor(255,255,255);
     
    // blur.draw();
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-
+    
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
@@ -87,7 +76,9 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             
             
             for (int k = 0; k < p.size(); k++) {
+                shader.begin();
                 ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * time));
+                shader.end();
             }
             ofPopMatrix();
         }

@@ -33,6 +33,7 @@ class ofApp : public ofBaseApp{
     float textXPos;
     float textYPos;
     
+    ofShader shader;
     ofxPostProcessing post;
     ofxBlur blur;
     
