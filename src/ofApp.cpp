@@ -77,6 +77,7 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             
             for (int k = 0; k < p.size(); k++) {
                 shader.begin();
+                shader.setUniform1f("time", ofGetElapsedTimef());
                 ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * time));
                 shader.end();
             }
