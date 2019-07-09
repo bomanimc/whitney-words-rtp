@@ -23,6 +23,8 @@ void ofApp::setup(){
     gui.add(spacing.setup("spacing", 5, 1, 50));
     gui.add(alpha.setup("alpha", 25, 0, 255));
     gui.add(resolution.setup("resolution", 20, 3, 75));
+    
+    ofApp::createPositionsArray();
 }
 
 //--------------------------------------------------------------
@@ -46,19 +48,33 @@ void ofApp::draw(){
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     
-    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-        vector<ofPath> paths = textSections[sectionNum];
-        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-
-        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
-    }
+//    shader.begin();
+//    shader.setUniform1f("time", ofGetElapsedTimef());
+//    shader.end();
+    
+    ofApp::drawDebugPoints();
     
     gui.draw();
 }
 
-void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
+void ofApp::drawDebugPoints() {
+    for (int i = 0; i < circlePositions.size(); i++) {
+        ofVec2f pos = circlePositions[i];
+        ofDrawCircle(pos.x, pos.y, 1);
+    }
+}
+
+void ofApp::createPositionsArray() {
+    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
+        vector<ofPath> paths = textSections[sectionNum];
+        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
+        
+        ofApp::determineTextPositions(paths, sectionXPos, textYPos, colors[sectionNum]);
+    }
+}
+
+void ofApp::determineTextPositions(vector<ofPath> paths, float xPos, float yPos, int color) {
     ofSetColor(ofColor::fromHex(color, alpha));
-    
     
     float time = ofGetElapsedTimef();
     for (int i = 0; i < paths.size(); i++) {
@@ -74,12 +90,10 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
                 p = p.getResampledByCount(350);
             }
             
-            
             for (int k = 0; k < p.size(); k++) {
-                shader.begin();
-                shader.setUniform1f("time", ofGetElapsedTimef());
-                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * time));
-                shader.end();
+                ofVec2f pos;
+                pos.set(xPos + p.getVertices()[k].x, yPos + p.getVertices()[k].y);
+                circlePositions.push_back(pos);
             }
             ofPopMatrix();
         }

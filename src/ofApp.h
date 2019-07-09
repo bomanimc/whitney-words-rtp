@@ -24,7 +24,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void drawText(vector<ofPath> paths, float xPos, float yPos, int color);
+    void drawDebugPoints();
+    void createPositionsArray();
+    void determineTextPositions(vector<ofPath> paths, float xPos, float yPos, int color);
     
     ofTrueTypeFont font;
     ofRectangle boundingRect;
@@ -34,6 +36,7 @@ class ofApp : public ofBaseApp{
     float textYPos;
     
     ofShader shader;
+    vector<ofVec2f> circlePositions;
     ofxPostProcessing post;
     ofxBlur blur;
     
