@@ -45,5 +45,5 @@ class ofApp : public ofBaseApp{
     ofxFloatSlider resolution;
     ofxPanel gui;
     
-    bool mode;
+    bool showDebug;
 };

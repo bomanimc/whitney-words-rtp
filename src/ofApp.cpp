@@ -51,8 +51,9 @@ void ofApp::draw(){
 //    shader.begin();
 //    shader.setUniform1f("time", ofGetElapsedTimef());
 //    shader.end();
-    
-    ofApp::drawDebugPoints();
+    if (showDebug) {
+        ofApp::drawDebugPoints();
+    }
     
     gui.draw();
 }
@@ -84,11 +85,7 @@ void ofApp::determineTextPositions(vector<ofPath> paths, float xPos, float yPos,
             ofPushMatrix();
             ofTranslate(xPos, yPos);
             ofPolyline p = polylines[j];
-            if (mode) {
-                p = p.getResampledBySpacing(spacing);
-            } else {
-                p = p.getResampledByCount(350);
-            }
+            p = p.getResampledByCount(350);
             
             for (int k = 0; k < p.size(); k++) {
                 ofVec2f pos;
@@ -102,7 +99,7 @@ void ofApp::determineTextPositions(vector<ofPath> paths, float xPos, float yPos,
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    mode = !mode;
+    showDebug = !showDebug;
 }
 
 //--------------------------------------------------------------
