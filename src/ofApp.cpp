@@ -21,12 +21,12 @@ void ofApp::setup(){
     gui.setup();
     gui.add(spacing.setup("spacing", 5, 1, 50));
     gui.add(alpha.setup("alpha", 25, 0, 255));
-    gui.add(resolution.setup("resolution", 20, 3, 75));
+    gui.add(resolution.setup("resolution", 50, 3, 75));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    blur.setScale(1);
+    blur.setScale(2);
     blur.setRotation(PI);
     ofSetCircleResolution(resolution);
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
@@ -38,22 +38,22 @@ void ofApp::draw(){
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
-//    blur.begin();
-//    ofClear(0,0,0,255);
-//    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-//
-//        vector<ofPath> paths = textSections[sectionNum];
-//        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-//
-//        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
-//    }
-//    ofClearAlpha();
-//    blur.end();
+    blur.begin();
+    ofClear(0,0,0,255);
+    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
+
+        vector<ofPath> paths = textSections[sectionNum];
+        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
+
+        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
+    }
+    ofClearAlpha();
+    blur.end();
     
     // Remove non-white tint
     ofSetColor(255,255,255);
     
-   // blur.draw();
+    blur.draw();
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
 
@@ -82,12 +82,12 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             if (mode) {
                 p = p.getResampledBySpacing(spacing);
             } else {
-                p = p.getResampledByCount(350);
+                p = p.getResampledByCount(500);
             }
             
             
             for (int k = 0; k < p.size(); k++) {
-                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * time));
+                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.03 * time));
             }
             ofPopMatrix();
         }
