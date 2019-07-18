@@ -41,5 +41,7 @@ class ofApp : public ofBaseApp{
     ofxFloatSlider resolution;
     ofxPanel gui;
     
+    ofEasyCam cam;
+    
     bool mode;
 };
