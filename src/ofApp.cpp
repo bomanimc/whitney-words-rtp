@@ -48,12 +48,20 @@ void ofApp::draw(){
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     
-//    shader.begin();
-//    shader.setUniform1f("time", ofGetElapsedTimef());
-//    shader.end();
     if (showDebug) {
         ofApp::drawDebugPoints();
     }
+    
+    ofRectangle baseShape = ofRectangle(circlePositions[0].x, circlePositions[0].y, 5, 5);
+    baseShape.get
+    ofVboMesh vboMesh = baseShape.getMesh();
+    
+    shader.begin();
+    shader.setUniform1f("time", ofGetElapsedTimef());
+    shader.setUniform1fv("xPositions", &circlePositions[0].x, circlePositions.size());
+    shader.setUniform1fv("yPositions", &circlePositions[0].y, circlePositions.size());
+    ofCircle(circlePositions[0].x, circlePositions[0].y, 5);
+    shader.end();
     
     gui.draw();
 }
