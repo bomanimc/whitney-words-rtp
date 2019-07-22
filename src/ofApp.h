@@ -24,7 +24,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void drawText(vector<ofPath> paths, float xPos, float yPos, int color);
+    void drawText(float xPos, float yPos, int color, vector<ofPolyline> sectionPolylines);
+    void getPolylines(vector<ofPath> paths);
     
     ofTrueTypeFont font;
     ofRectangle boundingRect;
@@ -32,9 +33,11 @@ class ofApp : public ofBaseApp{
     vector<vector<ofPath>> textSections;
     float textXPos;
     float textYPos;
+    vector<vector<ofPolyline>> polylinesList;
+    
+    float animationCounter;
     
     ofxPostProcessing post;
-    ofxBlur blur;
     
     ofxFloatSlider spacing;
     ofxFloatSlider alpha;
