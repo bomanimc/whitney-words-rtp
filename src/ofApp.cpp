@@ -6,22 +6,22 @@ void ofApp::setup(){
     //ofSetFrameRate(15);
     
     font.load("corm.ttf", 200, true, true, true);
-    vector<ofPath> nineteen = font.getStringAsPoints("bom", false, false);
-    vector<ofPath> sixteen = font.getStringAsPoints("ani", false, false);
+    vector<ofPath> nineteen = font.getStringAsPoints("spr", false, false);
+    vector<ofPath> sixteen = font.getStringAsPoints("out", false, false);
     textSections.push_back(nineteen);
     textSections.push_back(sixteen);
     
     // Center the text by using bounding box and x-height.
-    boundingRect = font.getStringBoundingBox("bomani", 0, 0);
+    boundingRect = font.getStringBoundingBox("sprout", 0, 0);
     textXPos = 0;
     textYPos = 0;
     
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
     
     gui.setup();
-    gui.add(spacing.setup("spacing", 50, 1, 100));
+    gui.add(spacing.setup("spacing", 75, 1, 100));
     gui.add(alpha.setup("alpha", 25, 0, 255));
-    gui.add(resolution.setup("resolution", 20, 3, 50));
+    gui.add(resolution.setup("resolution", 12, 3, 50));
 }
 
 //--------------------------------------------------------------
@@ -36,41 +36,23 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     cam.begin();
-//    blur.begin();
-//    ofClear(0,0,0,255);
-//    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-//
-//        vector<ofPath> paths = textSections[sectionNum];
-//        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-//
-//        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
-//    }
-//    ofClearAlpha();
-//    blur.end();
-    
-    // Remove non-white tint
-    ofSetColor(255,255,255);
-    
-   // blur.draw();
-    
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
 
-        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
+        ofApp::drawText(paths, sectionXPos, textYPos + 100, colors[sectionNum]);
     }
     cam.end();
     
-    gui.draw();
+//    gui.draw();
 }
 
 void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
     ofSetColor(ofColor::fromHex(color, alpha));
-    
+    float decayFactor = 0.2;
+    float timeScaleForDecay = 0.2;
     
     float time = ofGetElapsedTimef();
     for (int i = 0; i < paths.size(); i++) {
@@ -86,12 +68,22 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
 //                p = p.getResampledByCount(100);
 //            }
 //            p = p.getResampledByCount(10);
-            p = p.getResampledBySpacing(spacing);
-//            cout << ofGetSphereResolution() << endl;
+            float spacingTerm = (0.2 * spacing) + (0.8 * spacing * pow(1 - decayFactor, timeScaleForDecay * time));
+            p = p.getResampledBySpacing(spacingTerm);
             ofSetSphereResolution(resolution);
             
             for (int k = 0; k < p.size(); k++) {
-                ofDrawSphere(p.getVertices()[k].x - (boundingRect.width / 2), -1 * p.getVertices()[k].y - (boundingRect.height / 2), 0, 100 * sin(0.02 * time));
+                ofSeedRandom(k);
+                float amplitude = ofRandom(-150, 150);
+                float speed = ofMap(ofRandomf(), 0, 1, -decayFactor, decayFactor);
+                float decayTerm = amplitude * pow(1 - decayFactor, timeScaleForDecay * time);
+                
+                ofDrawSphere(
+                     (decayTerm * cos(speed * time)) + p.getVertices()[k].x - (boundingRect.width / 2),
+                     (decayTerm * sin(speed * time)) + -1 * p.getVertices()[k].y - (boundingRect.height / 2),
+                     0,
+                     50 * pow(1 - decayFactor, timeScaleForDecay * time)
+                );
             }
             ofPopMatrix();
         }
