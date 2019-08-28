@@ -32,11 +32,6 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
-    
-    float time = ofGetElapsedTimef();
-    if (time > 10) {
-        animationCounter += 1;
-    }
 }
 
 //--------------------------------------------------------------
@@ -73,7 +68,11 @@ void ofApp::drawText(float xPos, float yPos, int color, vector<ofPolyline> secti
     ofSetColor(ofColor::fromHex(color, alpha));
     float decayFactor = 0.2;
     float timeScaleForDecay = 0.2;
-    float time = animationCounter / 60.0;
+    float elapsedSeconds = ofGetElapsedTimef();
+    float time = 0;
+    if (elapsedSeconds >= 10) {
+        time = elapsedSeconds - 10;
+    }
     
     for (int j = 0; j < sectionPolylines.size(); j++) {
         ofPolyline p = sectionPolylines[j];
