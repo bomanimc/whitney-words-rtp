@@ -7,35 +7,41 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofNoFill();
+    ofEnableAntiAliasing();
     
     font.load("corm.ttf", 200, true, true, true);
-    vector<ofPath> nineteen = font.getStringAsPoints("bom", false, false);
-    vector<ofPath> sixteen = font.getStringAsPoints("ani", false, false);
+    vector<ofPath> nineteen = font.getStringAsPoints("ri", false, false);
+    vector<ofPath> sixteen = font.getStringAsPoints("se", false, false);
     textSections.push_back(nineteen);
     textSections.push_back(sixteen);
     
     // Center the text by using bounding box and x-height.
-    boundingRect = font.getStringBoundingBox("bomani", 0, 0);
+    boundingRect = font.getStringBoundingBox("rise", 0, 0);
     textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
     textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
     
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
     
-    gui.setup();
-    gui.add(spacing.setup("spacing", 5, 1, 50));
-    gui.add(alpha.setup("alpha", 30, 0, 255));
-    gui.add(resolution.setup("resolution", 70, 3, 100));
     
-    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    fbo.allocate(4 * ofGetWidth(), 4 * ofGetHeight(), GL_RGBA);
     
     drawMode = BASIC_DIRECT_DRAW_MODE;
+    
+    ofApp::configureGUI();
+}
+
+void ofApp::configureGUI() {
+    gui.setup();
+    gui.add(spacing.setup("spacing", 1.25, 1, 10));
+    gui.add(alpha.setup("alpha", 30, 0, 255));
+    gui.add(resolution.setup("resolution", 70, 3, 100));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 //    blur.setScale(.1);
     blur.setRotation(PI);
-    blur.setScale(ofMap(mouseX, 0, ofGetWidth(), 0, 1));
+    blur.setScale(ofMap(mouseX, 0, ofGetWidth(), 0, 3));
 //    blur.setRotation(ofMap(mouseY, 0, ofGetHeight(), -PI, PI));
     ofSetCircleResolution(resolution);
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
@@ -66,16 +72,25 @@ void ofApp::drawDebugUI() {
 }
 
 void ofApp::drawWordWithBlur() {
+    ofApp::resetBlendingSettings();
+    
     blur.begin();
-        fbo.draw(0,0);
+        ofApp::drawWordWithFBO();
     blur.end();
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofSetColor(255,255,255);
     blur.draw();
+    ofDisableBlendMode();
+    
+    ofApp::drawWord();
 }
 
 void ofApp::drawWordWithFBO() {
+    ofApp::resetBlendingSettings();
+    
     fbo.begin();
+        ofClear(0, 0, 0, 0);
         ofApp::drawWord();
         ofClearAlpha();
     fbo.end();
@@ -84,6 +99,8 @@ void ofApp::drawWordWithFBO() {
 }
 
 void ofApp::drawWord() {
+    ofApp::resetBlendingSettings();
+    
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
@@ -121,6 +138,11 @@ void ofApp::drawSection(vector<ofPath> paths, float xPos, float yPos, int color)
     }
 }
 
+void ofApp::resetBlendingSettings() {
+    ofDisableBlendMode();
+    ofSetColor(255, 255, 255);
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if (key == ' ') {
@@ -134,6 +156,9 @@ void ofApp::keyPressed(int key){
     }
     else if (key == '3') {
         drawMode = BLUR_MODE;
+    }
+    else if (key == 'r') {
+        mode = !mode;
     }
 }
 
