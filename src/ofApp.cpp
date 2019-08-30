@@ -39,10 +39,10 @@ void ofApp::configureGUI() {
 
 //--------------------------------------------------------------
 void ofApp::update(){
-//    blur.setScale(.1);
-    blur.setRotation(PI);
-    blur.setScale(ofMap(mouseX, 0, ofGetWidth(), 0, 3));
-//    blur.setRotation(ofMap(mouseY, 0, ofGetHeight(), -PI, PI));
+    float time = ofGetElapsedTimef();
+    
+    blur.setScale(3);
+    blur.setRotation(PI * sin(0.06 * time));
     ofSetCircleResolution(resolution);
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
