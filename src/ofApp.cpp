@@ -1,9 +1,12 @@
 #include "ofApp.h"
 
+#define BASIC_DIRECT_DRAW_MODE 1
+#define FBO_DRAW_MODE 2
+#define BLUR_MODE 3
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofNoFill();
-    //ofSetFrameRate(15);
     
     font.load("corm.ttf", 200, true, true, true);
     vector<ofPath> nineteen = font.getStringAsPoints("bom", false, false);
@@ -20,14 +23,20 @@ void ofApp::setup(){
     
     gui.setup();
     gui.add(spacing.setup("spacing", 5, 1, 50));
-    gui.add(alpha.setup("alpha", 25, 0, 255));
-    gui.add(resolution.setup("resolution", 20, 3, 75));
+    gui.add(alpha.setup("alpha", 30, 0, 255));
+    gui.add(resolution.setup("resolution", 70, 3, 100));
+    
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    
+    drawMode = BASIC_DIRECT_DRAW_MODE;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    blur.setScale(1);
+//    blur.setScale(.1);
     blur.setRotation(PI);
+    blur.setScale(ofMap(mouseX, 0, ofGetWidth(), 0, 1));
+//    blur.setRotation(ofMap(mouseY, 0, ofGetHeight(), -PI, PI));
     ofSetCircleResolution(resolution);
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -36,38 +45,56 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-
-//    blur.begin();
-//    ofClear(0,0,0,255);
-//    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-//
-//        vector<ofPath> paths = textSections[sectionNum];
-//        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-//
-//        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
-//    }
-//    ofClearAlpha();
-//    blur.end();
-    
-    // Remove non-white tint
-    ofSetColor(255,255,255);
-    
-   // blur.draw();
-    
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
-
-    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-        vector<ofPath> paths = textSections[sectionNum];
-        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-
-        ofApp::drawText(paths, sectionXPos, textYPos, colors[sectionNum]);
+    if (drawMode == BASIC_DIRECT_DRAW_MODE) {
+        ofApp::drawWord();
+    }
+    else if (drawMode == FBO_DRAW_MODE) {
+        ofApp::drawWordWithFBO();
+    }
+    else if (drawMode == BLUR_MODE) {
+        ofApp::drawWordWithBlur();
     }
     
+    
+    if (shouldShowDebugUI) {
+        drawDebugUI();
+    }
+}
+
+void ofApp::drawDebugUI() {
     gui.draw();
 }
 
-void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
+void ofApp::drawWordWithBlur() {
+    blur.begin();
+        fbo.draw(0,0);
+    blur.end();
+    
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    blur.draw();
+}
+
+void ofApp::drawWordWithFBO() {
+    fbo.begin();
+        ofApp::drawWord();
+        ofClearAlpha();
+    fbo.end();
+    
+    fbo.draw(0,0);
+}
+
+void ofApp::drawWord() {
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
+        vector<ofPath> paths = textSections[sectionNum];
+        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
+        
+        ofApp::drawSection(paths, sectionXPos, textYPos, colors[sectionNum]);
+    }
+    ofClearAlpha();
+}
+
+void ofApp::drawSection(vector<ofPath> paths, float xPos, float yPos, int color) {
     ofSetColor(ofColor::fromHex(color, alpha));
     
     
@@ -82,7 +109,7 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
             if (mode) {
                 p = p.getResampledBySpacing(spacing);
             } else {
-                p = p.getResampledByCount(350);
+                p = p.getResampledByCount(500);
             }
             
             
@@ -96,7 +123,18 @@ void ofApp::drawText(vector<ofPath> paths, float xPos, float yPos, int color) {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    mode = !mode;
+    if (key == ' ') {
+        shouldShowDebugUI = !shouldShowDebugUI;
+    }
+    else if (key == '1') {
+        drawMode = BASIC_DIRECT_DRAW_MODE;
+    }
+    else if (key == '2') {
+        drawMode = FBO_DRAW_MODE;
+    }
+    else if (key == '3') {
+        drawMode = BLUR_MODE;
+    }
 }
 
 //--------------------------------------------------------------

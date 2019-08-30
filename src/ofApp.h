@@ -24,7 +24,13 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void drawText(vector<ofPath> paths, float xPos, float yPos, int color);
+    void drawDebugUI();
+    void drawWordWithBlur();
+    void drawWordWithFBO();
+    void drawWord();
+    void drawSection(vector<ofPath> paths, float xPos, float yPos, int color);
+    
+    ofFbo fbo;
     
     ofTrueTypeFont font;
     ofRectangle boundingRect;
@@ -42,4 +48,6 @@ class ofApp : public ofBaseApp{
     ofxPanel gui;
     
     bool mode;
+    int drawMode;
+    bool shouldShowDebugUI;
 };
