@@ -7,6 +7,7 @@ CircleGroup::CircleGroup(ofVec2f inputPosition, int inputThickness, int inputCol
 }
 
 void CircleGroup::draw(float radius, int alpha, int numCirclesInGroup) {
+    float staticRadius = 70;
     float angle = TWO_PI / (float) numCirclesInGroup;
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
@@ -16,13 +17,13 @@ void CircleGroup::draw(float radius, int alpha, int numCirclesInGroup) {
     
     // Draw the inner ring
     for (int i = 0; i < numCirclesInGroup; i++) {
-        ofDrawCircle(radius * sin(angle * i), radius * cos(angle * i), radius);
+        ofDrawCircle(staticRadius * sin(angle * i), staticRadius * cos(angle * i), radius);
     }
     
     // Draw the outer ring
-    float outerRingRadius = radius + thickness;
+    float outerRingRadius = staticRadius + thickness;
     for (int i = 0; i < numCirclesInGroup; i++) {
-        ofDrawCircle(outerRingRadius * sin(angle * i), outerRingRadius * cos(angle * i), outerRingRadius);
+        ofDrawCircle(outerRingRadius * sin(angle * i), outerRingRadius * cos(angle * i), radius + thickness);
     }
     
     ofPopMatrix();
