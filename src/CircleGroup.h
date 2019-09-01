@@ -7,8 +7,9 @@ class CircleGroup {
     ofVec2f startingPos;
     int thickness;
     int color;
+    float startingTime;
     
     public:
-        CircleGroup(ofVec2f inputPosition, int inputThickness, int inputColor);
-        void draw(float radius, int alpha, int numCirclesInGroup = NUM_CIRCLES_IN_GROUP);
+        CircleGroup(ofVec2f inputPosition, int inputThickness, int inputColor, float inputStartTime);
+        void draw(int alpha, int numCirclesInGroup = NUM_CIRCLES_IN_GROUP);
 };

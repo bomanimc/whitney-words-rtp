@@ -1,14 +1,17 @@
 #include "CircleGroup.h"
 
-CircleGroup::CircleGroup(ofVec2f inputPosition, int inputThickness, int inputColor) {
+CircleGroup::CircleGroup(ofVec2f inputPosition, int inputThickness, int inputColor, float inputStartTime) {
     startingPos = inputPosition;
     color = inputColor;
     thickness = inputThickness;
+    startingTime = inputStartTime;
 }
 
-void CircleGroup::draw(float radius, int alpha, int numCirclesInGroup) {
+void CircleGroup::draw(int alpha, int numCirclesInGroup) {
     float staticRadius = 70;
     float angle = TWO_PI / (float) numCirclesInGroup;
+    float timeSinceAdded = ofGetElapsedTimef() - startingTime;
+    float radius = 200 * sin(0.1 * timeSinceAdded);
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetColor(ofColor::fromHex(color, alpha));

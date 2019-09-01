@@ -10,26 +10,10 @@ void ofApp::setup(){
     ofNoFill();
     ofEnableAntiAliasing();
     
-    font.load("corm.ttf", 200, true, true, true);
-    vector<ofPath> nineteen = font.getStringAsPoints("ri", false, false);
-    vector<ofPath> sixteen = font.getStringAsPoints("se", false, false);
-    textSections.push_back(nineteen);
-    textSections.push_back(sixteen);
-    
-    // Center the text by using bounding box and x-height.
-    boundingRect = font.getStringBoundingBox("rise", 0, 0);
-    textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
-    textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
-    
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
-    
-    
     fbo.allocate(4 * ofGetWidth(), 4 * ofGetHeight(), GL_RGBA);
     
     drawMode = BASIC_DIRECT_DRAW_MODE;
-    
-    CircleGroup c(ofVec2f(ofGetWidth() / 2, ofGetHeight() / 2), 30, 0x706fd3);
-    circleGroups.push_back(c);
     
     ofApp::configureGUI();
 }
@@ -55,9 +39,14 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    float time = ofGetElapsedTimef();
-    for (auto circleGroup : circleGroups) {
-        circleGroup.draw(200 * sin(0.1 * time), alpha);
+    if (drawMode == BASIC_DIRECT_DRAW_MODE) {
+        circleGroupManager.drawCircleGroups(alpha);
+    }
+    else if (drawMode == FBO_DRAW_MODE) {
+        ofApp::drawCircleGroupsWithFBO();
+    }
+    else if (drawMode == BLUR_MODE) {
+        ofApp::drawCircleGroupsWithBlur();
     }
     
     if (shouldShowDebugUI) {
@@ -69,11 +58,11 @@ void ofApp::drawDebugUI() {
     gui.draw();
 }
 
-void ofApp::drawWordWithBlur() {
+void ofApp::drawCircleGroupsWithBlur() {
     ofApp::resetBlendingSettings();
     
     blur.begin();
-        ofApp::drawWordWithFBO();
+        circleGroupManager.drawCircleGroups(alpha);
     blur.end();
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
@@ -81,59 +70,19 @@ void ofApp::drawWordWithBlur() {
     blur.draw();
     ofDisableBlendMode();
     
-    ofApp::drawWord();
+    circleGroupManager.drawCircleGroups(alpha);
 }
 
-void ofApp::drawWordWithFBO() {
+void ofApp::drawCircleGroupsWithFBO() {
     ofApp::resetBlendingSettings();
     
     fbo.begin();
         ofClear(0, 0, 0, 0);
-        ofApp::drawWord();
+        circleGroupManager.drawCircleGroups(alpha);
         ofClearAlpha();
     fbo.end();
     
     fbo.draw(0,0);
-}
-
-void ofApp::drawWord() {
-    ofApp::resetBlendingSettings();
-    
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
-    for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
-        vector<ofPath> paths = textSections[sectionNum];
-        int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-        
-        ofApp::drawSection(paths, sectionXPos, textYPos, colors[sectionNum]);
-    }
-    ofClearAlpha();
-}
-
-void ofApp::drawSection(vector<ofPath> paths, float xPos, float yPos, int color) {
-    ofSetColor(ofColor::fromHex(color, alpha));
-    
-
-    float time = ofGetElapsedTimef();
-    for (int i = 0; i < paths.size(); i++) {
-        ofPath path = paths[i];
-        vector<ofPolyline> polylines = path.getOutline();
-        for (int j = 0; j < polylines.size(); j++) {
-            ofPushMatrix();
-            ofTranslate(xPos, yPos);
-            ofPolyline p = polylines[j];
-            if (mode) {
-                p = p.getResampledBySpacing(spacing);
-            } else {
-                p = p.getResampledByCount(500);
-            }
-    
-            
-            for (int k = 0; k < p.size(); k++) {
-                ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * time));
-            }
-            ofPopMatrix();
-        }
-    }
 }
 
 void ofApp::resetBlendingSettings() {
@@ -182,7 +131,8 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+    CircleGroup c(ofVec2f(x, y), 30, 0xff5252, ofGetElapsedTimef());
+    circleGroupManager.addCircleGroup(c);
 }
 
 //--------------------------------------------------------------

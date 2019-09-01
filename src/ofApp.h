@@ -4,7 +4,7 @@
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
 #include "ofxGui.h"
-#include "CircleGroup.h"
+#include "CircleGroupManager.h"
 
 class ofApp : public ofBaseApp{
 
@@ -26,21 +26,14 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     void drawDebugUI();
-    void drawWordWithBlur();
-    void drawWordWithFBO();
-    void drawWord();
-    void drawSection(vector<ofPath> paths, float xPos, float yPos, int color);
+    void drawCircleGroupsWithBlur();
+    void drawCircleGroupsWithFBO();
     void resetBlendingSettings();
     void configureGUI();
     
     ofFbo fbo;
     
-    ofTrueTypeFont font;
-    ofRectangle boundingRect;
     vector<int> colors{0xff5252, 0x706fd3};
-    vector<vector<ofPath>> textSections;
-    float textXPos;
-    float textYPos;
     
     ofxPostProcessing post;
     ofxBlur blur;
@@ -54,5 +47,5 @@ class ofApp : public ofBaseApp{
     int drawMode;
     bool shouldShowDebugUI;
     
-    vector<CircleGroup> circleGroups;
+    CircleGroupManager circleGroupManager;
 };
