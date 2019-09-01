@@ -4,6 +4,7 @@
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
 #include "ofxGui.h"
+#include "CircleGroup.h"
 
 class ofApp : public ofBaseApp{
 
@@ -52,4 +53,6 @@ class ofApp : public ofBaseApp{
     bool mode;
     int drawMode;
     bool shouldShowDebugUI;
+    
+    vector<CircleGroup> circleGroups;
 };

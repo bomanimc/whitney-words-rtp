@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "CircleGroup.h"
 
 #define BASIC_DIRECT_DRAW_MODE 1
 #define FBO_DRAW_MODE 2
@@ -27,6 +28,9 @@ void ofApp::setup(){
     
     drawMode = BASIC_DIRECT_DRAW_MODE;
     
+    CircleGroup c(ofVec2f(ofGetWidth() / 2, ofGetHeight() / 2), 30, 0x706fd3);
+    circleGroups.push_back(c);
+    
     ofApp::configureGUI();
 }
 
@@ -51,16 +55,10 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(0);
     
-    if (drawMode == BASIC_DIRECT_DRAW_MODE) {
-        ofApp::drawWord();
+    float time = ofGetElapsedTimef();
+    for (auto circleGroup : circleGroups) {
+        circleGroup.draw(200 * sin(0.1 * time), alpha);
     }
-    else if (drawMode == FBO_DRAW_MODE) {
-        ofApp::drawWordWithFBO();
-    }
-    else if (drawMode == BLUR_MODE) {
-        ofApp::drawWordWithBlur();
-    }
-    
     
     if (shouldShowDebugUI) {
         drawDebugUI();
@@ -114,7 +112,7 @@ void ofApp::drawWord() {
 void ofApp::drawSection(vector<ofPath> paths, float xPos, float yPos, int color) {
     ofSetColor(ofColor::fromHex(color, alpha));
     
-    
+
     float time = ofGetElapsedTimef();
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
