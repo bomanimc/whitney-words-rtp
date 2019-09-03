@@ -8,5 +8,6 @@ class CircleGroupManager {
     
 public:
     void addCircleGroup(CircleGroup inputCircleGroup);
+    void removeLastCircleGroup();
     void drawCircleGroups(int alpha);
 };

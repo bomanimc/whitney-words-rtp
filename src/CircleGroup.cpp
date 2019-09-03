@@ -13,7 +13,7 @@ void CircleGroup::draw(int alpha, int numCirclesInGroup) {
     float timeSinceAdded = ofGetElapsedTimef() - startingTime;
     float radius = 200 * sin(0.1 * timeSinceAdded);
     
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
     ofSetColor(ofColor::fromHex(color, alpha));
     ofPushMatrix();
     ofTranslate(startingPos.x, startingPos.y);

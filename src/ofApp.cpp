@@ -107,6 +107,9 @@ void ofApp::keyPressed(int key){
     else if (key == 'r') {
         mode = !mode;
     }
+    else if (key == OF_KEY_BACKSPACE) {
+        circleGroupManager.removeLastCircleGroup();
+    }
 }
 
 //--------------------------------------------------------------
