@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp{
     void drawSection(vector<ofPath> paths, float xPos, float yPos, int color);
     void resetBlendingSettings();
     void configureGUI();
+    void configureText(string word);
     
     ofFbo fbo;
     

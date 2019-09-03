@@ -9,25 +9,29 @@ void ofApp::setup(){
     ofNoFill();
     ofEnableAntiAliasing();
     
-    font.load("corm.ttf", 200, true, true, true);
-    vector<ofPath> nineteen = font.getStringAsPoints("ri", false, false);
-    vector<ofPath> sixteen = font.getStringAsPoints("se", false, false);
-    textSections.push_back(nineteen);
-    textSections.push_back(sixteen);
-    
-    // Center the text by using bounding box and x-height.
-    boundingRect = font.getStringBoundingBox("rise", 0, 0);
-    textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
-    textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
-    
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
-    
-    
     fbo.allocate(4 * ofGetWidth(), 4 * ofGetHeight(), GL_RGBA);
     
     drawMode = BASIC_DIRECT_DRAW_MODE;
     
+    ofApp::configureText("rise");
     ofApp::configureGUI();
+}
+
+void ofApp::configureText(string word) {
+    font.load("corm.ttf", 200, true, true, true);
+    int wordMidpoint = word.length() / 2;
+    string wordFirstHalf = word.substr(0, wordMidpoint);
+    string wordSecondHalf = word.substr(wordMidpoint, word.length());
+    vector<ofPath> firstHalf = font.getStringAsPoints(wordFirstHalf, false, false);
+    vector<ofPath> secondHalf = font.getStringAsPoints(wordSecondHalf, false, false);
+    textSections.push_back(firstHalf);
+    textSections.push_back(secondHalf);
+    
+    // Center the text by using bounding box and x-height.
+    boundingRect = font.getStringBoundingBox(word, 0, 0);
+    textXPos = (ofGetWidth() / 2) - (boundingRect.width / 2);
+    textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
 }
 
 void ofApp::configureGUI() {
