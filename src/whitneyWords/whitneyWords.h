@@ -4,16 +4,11 @@
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
 #include "ofxGui.h"
+#include "BaseSketch.cpp"
 
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
+class WhitneyWords : public BaseSketch {
     
+public:
     void drawDebugUI();
     void drawWordWithBlur();
     void drawWordWithFBO();
@@ -21,16 +16,8 @@ class ofApp : public ofBaseApp{
     void drawSection(vector<ofPath> paths, float xPos, float yPos, int color);
     void resetBlendingSettings();
     void configureGUI();
-//    void configureText(string word);
     
     ofFbo fbo;
-    
-    ofTrueTypeFont font;
-    ofRectangle boundingRect;
-    vector<int> colors{0xff5252, 0x706fd3};
-    vector<vector<ofPath>> textSections;
-    float textXPos;
-    float textYPos;
     
     ofxPostProcessing post;
     ofxBlur blur;
@@ -44,3 +31,4 @@ class ofApp : public ofBaseApp{
     int drawMode;
     bool shouldShowDebugUI;
 };
+
