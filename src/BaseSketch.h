@@ -11,6 +11,9 @@ public:
     float textYPos;
     
     void configureText(string word) {
+        // Reset the vector since it's called by subclasses.
+        textSections.clear();
+        
         font.load("corm.ttf", 200, true, true, true);
         int wordMidpoint = word.length() / 2;
         string wordFirstHalf = word.substr(0, wordMidpoint);
