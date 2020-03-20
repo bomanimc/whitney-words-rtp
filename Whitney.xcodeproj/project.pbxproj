@@ -332,6 +332,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30D79E1924247C6B003B65E3 /* WhitneyWords */ = {
+			isa = PBXGroup;
+			children = (
+				30D79E1624247241003B65E3 /* WhitneyWords.h */,
+				30D79E1724247243003B65E3 /* WhitneyWords.cpp */,
+			);
+			path = WhitneyWords;
+			sourceTree = "<group>";
+		};
 		480A780D8D0308AE4A368801 /* ofxGui */ = {
 			isa = PBXGroup;
 			children = (
@@ -768,8 +777,7 @@
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
-				30D79E1624247241003B65E3 /* WhitneyWords.h */,
-				30D79E1724247243003B65E3 /* WhitneyWords.cpp */,
+				30D79E1924247C6B003B65E3 /* WhitneyWords */,
 				3054BB9523B593E10044FF41 /* BaseSketch.h */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 			);
