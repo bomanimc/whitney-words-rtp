@@ -1,41 +1,45 @@
-#include "WhitneyWords.h"
+#include "whitneyWords.h"
+
+#define BASIC_DIRECT_DRAW_MODE 1
+#define FBO_DRAW_MODE 2
+#define BLUR_MODE 3
 
 void WhitneyWords::setup() {
     ofNoFill();
     ofEnableAntiAliasing();
-    
+
     blur.setup(ofGetWidth(), ofGetHeight(), 10, .2, 2);
     fbo.allocate(4 * ofGetWidth(), 4 * ofGetHeight(), GL_RGBA);
-    
+
     drawMode = BASIC_DIRECT_DRAW_MODE;
-    
-    ofApp::configureText("rise");
-    ofApp::configureGUI();
+
+    WhitneyWords::configureText("rise");
+    WhitneyWords::configureGUI();
 }
 
 void WhitneyWords::update(){
     float time = ofGetElapsedTimef();
-    
+
     blur.setScale(3);
     blur.setRotation(PI * sin(0.06 * time));
     ofSetCircleResolution(resolution);
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
-void WhitneyWords::draw(){
+void WhitneyWords::draw() {
     ofBackground(0);
     
     if (drawMode == BASIC_DIRECT_DRAW_MODE) {
-        ofApp::drawWord();
+        WhitneyWords::drawWord();
     }
     else if (drawMode == FBO_DRAW_MODE) {
-        ofApp::drawWordWithFBO();
+        WhitneyWords::drawWordWithFBO();
     }
     else if (drawMode == BLUR_MODE) {
-        ofApp::drawWordWithBlur();
+        WhitneyWords::drawWordWithBlur();
     }
-    
-    
+
+
     if (shouldShowDebugUI) {
         drawDebugUI();
     }
@@ -53,49 +57,49 @@ void WhitneyWords::drawDebugUI() {
 }
 
 void WhitneyWords::drawWordWithBlur() {
-    ofApp::resetBlendingSettings();
-    
+    WhitneyWords::resetBlendingSettings();
+
     blur.begin();
-    ofApp::drawWordWithFBO();
+    WhitneyWords::drawWordWithFBO();
     blur.end();
-    
+
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetColor(255,255,255);
     blur.draw();
     ofDisableBlendMode();
-    
-    ofApp::drawWord();
+
+    WhitneyWords::drawWord();
 }
 
 void WhitneyWords::drawWordWithFBO() {
-    ofApp::resetBlendingSettings();
-    
+    WhitneyWords::resetBlendingSettings();
+
     fbo.begin();
     ofClear(0, 0, 0, 0);
-    ofApp::drawWord();
+    WhitneyWords::drawWord();
     ofClearAlpha();
     fbo.end();
-    
+
     fbo.draw(0,0);
 }
 
 void WhitneyWords::drawWord() {
-    ofApp::resetBlendingSettings();
-    
+    WhitneyWords::resetBlendingSettings();
+
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     for (int sectionNum = textSections.size() - 1; sectionNum >= 0; sectionNum--) {
         vector<ofPath> paths = textSections[sectionNum];
         int sectionXPos = textXPos + ((boundingRect.width / textSections.size()) * sectionNum);
-        
-        ofApp::drawSection(paths, sectionXPos, textYPos, colors[sectionNum]);
+
+        WhitneyWords::drawSection(paths, sectionXPos, textYPos, colors[sectionNum]);
     }
     ofClearAlpha();
 }
 
 void WhitneyWords::drawSection(vector<ofPath> paths, float xPos, float yPos, int color) {
     ofSetColor(ofColor::fromHex(color, alpha));
-    
-    
+
+
     float time = ofGetElapsedTimef();
     for (int i = 0; i < paths.size(); i++) {
         ofPath path = paths[i];
@@ -109,8 +113,8 @@ void WhitneyWords::drawSection(vector<ofPath> paths, float xPos, float yPos, int
             } else {
                 p = p.getResampledByCount(500);
             }
-            
-            
+
+
             for (int k = 0; k < p.size(); k++) {
                 ofDrawCircle(p.getVertices()[k].x, p.getVertices()[k].y, 200 * sin(0.06 * time));
             }

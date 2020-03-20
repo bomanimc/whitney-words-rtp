@@ -1,5 +1,5 @@
 #pragma once
-#include "ofApp.h"
+#include "ofMain.h"
 
 class BaseSketch {
 public:

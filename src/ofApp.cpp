@@ -1,9 +1,4 @@
 #include "ofApp.h"
-#include "whitneyWords/WhitneyWords.h"
-
-#define BASIC_DIRECT_DRAW_MODE 1
-#define FBO_DRAW_MODE 2
-#define BLUR_MODE 3
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -30,7 +25,10 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-
+void ofApp::draw(){
+    ofBackground(0);
+    whitneyWords.draw();
+}
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){

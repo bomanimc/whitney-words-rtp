@@ -4,7 +4,7 @@
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
 #include "ofxGui.h"
-#include "whitneyWords/WhitneyWords.h"
+#include "whitneyWords.h"
 
 class ofApp : public ofBaseApp{
 

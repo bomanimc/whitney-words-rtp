@@ -9,15 +9,9 @@
 class WhitneyWords : public BaseSketch {
     
 public:
-    void setup() override {
-        return 1;
-    };
-    void update() override {
-        return 2;
-    };
-    void draw() override {
-        return 3;
-    };
+    void setup();
+    void update();
+    void draw();
     
     void drawDebugUI();
     void drawWordWithBlur();
