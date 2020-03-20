@@ -1,4 +1,4 @@
-#include "whitneyWords.h"
+#include "WhitneyWords.h"
 
 #define BASIC_DIRECT_DRAW_MODE 1
 #define FBO_DRAW_MODE 2
