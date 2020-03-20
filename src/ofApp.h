@@ -4,6 +4,7 @@
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
 #include "ofxGui.h"
+#include "whitneyWords/WhitneyWords.h"
 
 class ofApp : public ofBaseApp{
 
@@ -43,4 +44,6 @@ class ofApp : public ofBaseApp{
     bool mode;
     int drawMode;
     bool shouldShowDebugUI;
+    
+    WhitneyWords whitneyWords;
 };

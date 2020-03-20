@@ -4,11 +4,21 @@
 #include "ofxPostProcessing.h"
 #include "ofxBlur.h"
 #include "ofxGui.h"
-#include "BaseSketch.cpp"
+#include "BaseSketch.h"
 
 class WhitneyWords : public BaseSketch {
     
 public:
+    void setup() override {
+        return 1;
+    };
+    void update() override {
+        return 2;
+    };
+    void draw() override {
+        return 3;
+    };
+    
     void drawDebugUI();
     void drawWordWithBlur();
     void drawWordWithFBO();
