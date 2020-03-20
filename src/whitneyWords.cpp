@@ -45,6 +45,24 @@ void WhitneyWords::draw() {
     }
 }
 
+void WhitneyWords::keyPressed(int key){
+    if (key == ' ') {
+        shouldShowDebugUI = !shouldShowDebugUI;
+    }
+    else if (key == '1') {
+        drawMode = BASIC_DIRECT_DRAW_MODE;
+    }
+    else if (key == '2') {
+        drawMode = FBO_DRAW_MODE;
+    }
+    else if (key == '3') {
+        drawMode = BLUR_MODE;
+    }
+    else if (key == 'r') {
+        mode = !mode;
+    }
+}
+
 void WhitneyWords::configureGUI() {
     gui.setup();
     gui.add(spacing.setup("spacing", 1.25, 1, 10));
@@ -98,7 +116,6 @@ void WhitneyWords::drawWord() {
 
 void WhitneyWords::drawSection(vector<ofPath> paths, float xPos, float yPos, int color) {
     ofSetColor(ofColor::fromHex(color, alpha));
-
 
     float time = ofGetElapsedTimef();
     for (int i = 0; i < paths.size(); i++) {

@@ -26,11 +26,8 @@ public:
         textYPos = (ofGetHeight() / 2) + (font.stringHeight("x") / 2);
     }
     
-    void keyPressed() {
-        // Do nothing in base class instance.
-    }
-    
     virtual void setup() = 0;
     virtual void update() = 0;
     virtual void draw() = 0;
+    virtual void keyPressed(int key) = 0;
 };
