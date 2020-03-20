@@ -2,20 +2,20 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    whitneyWords.setup();
+    emergentWords.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    whitneyWords.update();
+    emergentWords.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    whitneyWords.draw();
+    emergentWords.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    whitneyWords.keyPressed(key);
+    emergentWords.keyPressed(key);
 }
