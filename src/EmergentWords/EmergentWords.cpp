@@ -4,7 +4,7 @@
 void EmergentWords::setup(){
     ofNoFill();
     
-    EmergentWords::configureText("rise");
+    EmergentWords::configureText("healed");
     EmergentWords::configureGUI();
     
     textXPos = 0;
@@ -43,7 +43,7 @@ void EmergentWords::draw(){
 void EmergentWords::configureGUI() {
     gui.setup();
     gui.add(spacing.setup("spacing", 75, 1, 100));
-    gui.add(alpha.setup("alpha", 25, 0, 255));
+    gui.add(alpha.setup("alpha", 30, 0, 255));
     gui.add(resolution.setup("resolution", 12, 3, 50));
 }
 
@@ -85,20 +85,20 @@ void EmergentWords::drawText(float xPos, float yPos, int color, vector<ofPolylin
             float amplitude = ofRandom(-150, 150);
             float speed = ofMap(ofRandomf(), 0, 1, -decayFactor, decayFactor);
             float decayTerm = amplitude * pow(1 - decayFactor, timeScaleForDecay * time);
+            int directionTerm = ofSign(ofRandom(-10, 10));
             
             ofDrawSphere(
-                         (decayTerm * cos(speed * time)) + p.getVertices()[k].x - (boundingRect.width / 2),
-                         (decayTerm * sin(speed * time)) + -1 * p.getVertices()[k].y - (boundingRect.height / 2),
-                         0,
-                         50 * pow(1 - decayFactor, timeScaleForDecay * time)
-                         );
+                 (decayTerm * cos(speed * time)) + p.getVertices()[k].x - (boundingRect.width / 2),
+                 (decayTerm * sin(speed * time)) + -1 * p.getVertices()[k].y - (boundingRect.height / 2),
+                 0,
+                 50 * pow(1 - decayFactor, timeScaleForDecay * time)
+             );
         }
         ofPopMatrix();
     }
 }
 
 void EmergentWords::keyPressed(int key){
-    mode = !mode;
     if (key == ' ') {
         shouldShowDebugUI = !shouldShowDebugUI;
     }

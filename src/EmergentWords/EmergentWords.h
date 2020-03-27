@@ -28,7 +28,6 @@ public:
     
     ofEasyCam cam;
     
-    bool mode;
     bool shouldShowDebugUI;
 };
 
